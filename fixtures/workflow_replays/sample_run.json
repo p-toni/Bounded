@@ -1,0 +1,17 @@
+{
+  "workflow_run": {
+    "id": "wr_1",
+    "workflow_type": "prepare_rep",
+    "status": "succeeded",
+    "idempotency_key": "idem_1"
+  },
+  "step_events": [
+    {
+      "id": "se_1",
+      "step_name": "resolve_topic",
+      "step_status": "completed",
+      "input_hash": "abc",
+      "output_hash": "def"
+    }
+  ]
+}

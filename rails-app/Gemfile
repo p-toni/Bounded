@@ -1,0 +1,16 @@
+source "https://rubygems.org"
+
+gem "rails", "~> 8.0.0"
+gem "pg", "~> 1.5"
+gem "puma", "~> 6.4"
+gem "redis", "~> 5.2"
+gem "sidekiq", "~> 7.2"
+gem "jbuilder", "~> 2.13"
+gem "bootsnap", require: false
+gem "httparty", "~> 0.23"
+gem "geometry_gym_engine", path: "../engine-ruby"
+gem "geometry_gym", path: "../adapter-ruby-gem"
+
+group :development, :test do
+  gem "rspec-rails", "~> 7.0"
+end

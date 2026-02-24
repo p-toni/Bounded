@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0.0",
+  "drill_instance": {"id": "dr_teach_1", "diagnostic": "teach", "answer_key_json": {"valid_paths": [["e1", "e2"]]}},
+  "attempt": {"id": "at_teach_1", "diagnostic": "teach", "answer_json": {"path_edge_ids_in_order": ["e1", "e2"]}, "source_opened_bool": false},
+  "expected_score": {"result_code": "scored"}
+}

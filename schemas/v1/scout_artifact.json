@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/scout_artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "schema_version",
+    "created_at",
+    "session_pack_id",
+    "user_id",
+    "output_json",
+    "payload_hash",
+    "policy_json"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "session_pack_id": {"type": "string"},
+    "workflow_run_id": {"type": ["string", "null"]},
+    "user_id": {"type": "string"},
+    "output_json": {"$ref": "scout_output.json"},
+    "payload_hash": {"type": "string"},
+    "policy_json": {"type": "object"}
+  }
+}

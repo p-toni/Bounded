@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Workflow Run Inspector</title>
+    <style>
+      body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif; margin: 20px; color: #102027; background: #f4f7f8; }
+      h1, h2 { margin: 0 0 12px 0; }
+      .meta { background: #ffffff; border: 1px solid #d9e2e5; border-radius: 8px; padding: 12px; margin-bottom: 20px; }
+      .filters { background: #ffffff; border: 1px solid #d9e2e5; border-radius: 8px; padding: 12px; margin-bottom: 20px; display: grid; grid-template-columns: 1fr 1fr 1fr auto auto; gap: 8px; align-items: end; }
+      .filters label { display: block; font-size: 12px; color: #3d4f55; margin-bottom: 4px; }
+      .filters input, .filters select { width: 100%; box-sizing: border-box; padding: 6px; border: 1px solid #ccd9de; border-radius: 6px; background: #fff; font-size: 12px; }
+      .filters button, .filters a { padding: 7px 10px; border-radius: 6px; border: 1px solid #ccd9de; background: #f8fbfc; font-size: 12px; text-decoration: none; color: #102027; display: inline-block; }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #d9e2e5; }
+      th, td { border-bottom: 1px solid #e6ecef; text-align: left; padding: 8px; vertical-align: top; font-size: 12px; }
+      th { background: #eef4f6; font-weight: 600; }
+      tr:last-child td { border-bottom: none; }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
+      .status { display: inline-block; padding: 4px 8px; border-radius: 999px; background: #d9eef2; font-size: 12px; }
+      .json { white-space: pre-wrap; max-width: 520px; overflow-wrap: anywhere; }
+    </style>
+  </head>
+  <body>
+    <h1>Workflow Run Inspector</h1>
+    <div class="meta">
+      <p><strong>Run ID:</strong> <code><%= @workflow_run.id %></code></p>
+      <p><strong>Workflow:</strong> <code><%= @workflow_run.workflow_type %></code></p>
+      <p><strong>Status:</strong> <span class="status"><%= @workflow_run.status %></span></p>
+      <p><strong>User:</strong> <code><%= @workflow_run.user_id %></code></p>
+      <p><strong>Idempotency:</strong> <code><%= @workflow_run.idempotency_key %></code></p>
+      <p><strong>Bound Versions:</strong> <code><%= @workflow_run.bound_versions_json.to_json %></code></p>
+      <p><strong>Replay API:</strong> <code>/workflow_runs/<%= @workflow_run.id %>/replay</code></p>
+    </div>
+
+    <form class="filters" method="get" action="/workflow_runs/<%= @workflow_run.id %>/inspector">
+      <div>
+        <label for="step_name">Step Name</label>
+        <input id="step_name" name="step_name" value="<%= @filters[:step_name] %>" placeholder="e.g. generate_drill_instances" />
+      </div>
+      <div>
+        <label for="step_status">Step Status</label>
+        <select id="step_status" name="step_status">
+          <option value="">any</option>
+          <% WorkflowStepEvent::STEP_STATUSES.each do |status| %>
+            <option value="<%= status %>" <%= "selected" if @filters[:step_status] == status %>><%= status %></option>
+          <% end %>
+        </select>
+      </div>
+      <div>
+        <label for="tool_name">Tool Name</label>
+        <input id="tool_name" name="tool_name" value="<%= @filters[:tool_name] %>" placeholder="e.g. score.compute" />
+      </div>
+      <button type="submit">Apply</button>
+      <a href="/workflow_runs/<%= @workflow_run.id %>/inspector">Reset</a>
+    </form>
+
+    <div class="grid">
+      <section>
+        <h2>Step Timeline (<%= @step_events.size %>/<%= @total_step_events_count %>)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Created</th>
+              <th>Step</th>
+              <th>Status</th>
+              <th>Input/Output Hash</th>
+              <th>Output</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @step_events.each do |event| %>
+              <tr>
+                <td><%= event.created_at&.utc&.iso8601 %></td>
+                <td><code><%= event.step_name %></code></td>
+                <td><code><%= event.step_status %></code></td>
+                <td>
+                  <div><code>in: <%= event.input_hash %></code></div>
+                  <div><code>out: <%= event.output_hash %></code></div>
+                </td>
+                <td class="json"><code><%= event.output_json.to_json %></code></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Tool Calls (<%= @tool_logs.size %>/<%= @total_tool_logs_count %>)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Created</th>
+              <th>Tool</th>
+              <th>Policy</th>
+              <th>Input</th>
+              <th>Output</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @tool_logs.each do |log| %>
+              <tr>
+                <td><%= log.created_at&.utc&.iso8601 %></td>
+                <td><code><%= log.tool_name %></code></td>
+                <td class="json"><code><%= log.policy_json.to_json %></code></td>
+                <td class="json"><code><%= log.input_json.to_json %></code></td>
+                <td class="json"><code><%= log.output_json.to_json %></code></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+:concurrency: 12
+:queues:
+  - [workflow_high, 5]
+  - [workflow_default, 3]
+  - [workflow_low, 2]
+  - [ingest, 2]
+  - [render, 1]

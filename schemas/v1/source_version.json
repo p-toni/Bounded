@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/source_version",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "schema_version", "created_at", "source_id", "content_hash", "extracted_text"],
+  "properties": {
+    "id": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "source_id": {"type": "string"},
+    "content_hash": {"type": "string"},
+    "extracted_text": {"type": "string"},
+    "extracted_html": {"type": ["string", "null"]},
+    "title": {"type": ["string", "null"]}
+  }
+}

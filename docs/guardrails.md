@@ -1,0 +1,24 @@
+# Guardrails (V1)
+
+- Score freeze gate: Debrief and Share workflows require `session_packs.score_frozen_at`.
+- Score freeze transition: session drills freeze automatically only after all pack drills have persisted scored attempts.
+- Canonical 8-minute runtime script: session drill submission is a state machine (`rebuild` first, ordered drills only, and fixed phase boundaries at 0-2/2-4/4-6/6-8 minutes).
+- Progression unlock gate: diagnostics and graph-size ceilings are tier-gated (`edge_scout` -> `map_apprentice` -> `curvature_operator`) and cannot be bypassed by payload choice.
+- No scored-answer assistance: scoring is deterministic and LLM never sets points.
+- Source-open no-score: attempts with `source_opened_bool=true` get `result_code=no_score_source_opened`.
+- Audit-gated XP: edges with `audit_passed_count_int==0` yield zero XP when edge rewards apply.
+- Immutable bindings: attempts bind graph/source/drill/rubric versions.
+- Append-only events: step logs capture hashes and schema version for replay integrity.
+- Answer-key strictness: score computation validates required answer-key fields per diagnostic and rejects malformed drills.
+- LLM exfil controls: payloads are minimized and redacted (emails/long numeric tokens), with `payload_hash`, redaction list, and policy decision logged per call.
+- Rotation integrity: W1 drill composition is deterministic from schedule + weekday map and cannot be changed by freeform agent output.
+- Queue integrity: when topic is not explicitly chosen, W1 topic selection is deterministic from persisted schedule state + eligibility checks.
+- Curvature-triggered grounding: recent curvature signals can force an audit slot in W1 drill pack.
+- Graph granularity gate: W1 is blocked when graph exceeds level-unlocked caps or anchor windows.
+- Ingest determinism: paragraph span IDs are generated deterministically from `(source_version_id, ordinal, normalized paragraph text)`.
+- OUS integrity: topic score is derived from deterministic score artifacts only; LLM output is excluded.
+- OUS decay integrity: overdue decay is deterministic from `edge_mastery.last_seen_at` and `mastery_float`.
+- Curvature stream integrity: curvature signals are deterministic from scored-attempt patterns and de-duplicated within a short time window.
+- Scout gate: `scout.invoke` is blocked unless the target session pack is score-frozen and has attempts.
+- Scout contract: output is normalized to exactly 2 edge-targeted counterexamples, 1 alternate framing, and 1 failure mode.
+- Privacy approval gate: export/delete operations require a valid one-time approval token bound to action+scope.

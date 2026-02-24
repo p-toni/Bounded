@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/compaction_snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "schema_version", "created_at", "workflow_run_id", "payload_hash", "signature", "storage_path", "event_count"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "workflow_run_id": {"type": "string"},
+    "payload_hash": {"type": "string"},
+    "signature": {"type": "string"},
+    "storage_path": {"type": "string"},
+    "event_count": {"type": "integer", "minimum": 0}
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "drill_instance": {
+    "id": "dr_audit_1",
+    "diagnostic": "audit",
+    "answer_key_json": {"correct_span_ids": ["sp1", "sp2"]}
+  },
+  "attempt": {
+    "id": "at_audit_1",
+    "diagnostic": "audit",
+    "answer_json": {"selected_span_ids": ["sp1", "sp2"]},
+    "source_opened_bool": false
+  },
+  "expected_score": {"points_total": 25}
+}

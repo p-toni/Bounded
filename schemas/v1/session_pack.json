@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/session_pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "schema_version", "created_at", "user_id", "topic_id", "graph_version_id", "source_version_id", "rubric_version_id", "drill_instance_ids"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "user_id": {"type": "string"},
+    "topic_id": {"type": "string"},
+    "graph_version_id": {"type": "string"},
+    "source_version_id": {"type": "string"},
+    "rubric_version_id": {"type": "string"},
+    "drill_instance_ids": {"type": "array", "items": {"type": "string"}},
+    "score_frozen_at": {"type": ["string", "null"], "format": "date-time"}
+  }
+}

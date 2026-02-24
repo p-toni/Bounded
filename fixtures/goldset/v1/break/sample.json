@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0.0",
+  "drill_instance": {"id": "dr_break_1", "diagnostic": "break", "answer_key_json": {"broken_edge_id": "e9"}},
+  "attempt": {"id": "at_break_1", "diagnostic": "break", "answer_json": {"broken_edge_id": "e9"}, "source_opened_bool": false},
+  "expected_score": {"result_code": "scored"}
+}

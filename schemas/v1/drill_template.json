@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/drill_template",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "schema_version", "created_at", "name", "diagnostic"],
+  "properties": {
+    "id": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "name": {"type": "string"},
+    "diagnostic": {"type": "string", "enum": ["rebuild", "rephrase", "predict", "teach", "break", "audit"]},
+    "template_json": {"type": "object"}
+  }
+}

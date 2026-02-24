@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "graph_version": {"id": "gv1", "topic_id": "t1", "version_int": 1},
+  "drill_instance": {
+    "id": "dr1",
+    "diagnostic": "rebuild",
+    "answer_key_json": {"expected_edge_ids": ["e1", "e2"]}
+  },
+  "attempt": {
+    "id": "at1",
+    "diagnostic": "rebuild",
+    "answer_json": {"edge_ids": ["e1"]},
+    "source_opened_bool": false
+  },
+  "expected_score": {"result_code": "scored"}
+}

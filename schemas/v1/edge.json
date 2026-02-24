@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/edge",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "schema_version", "created_at", "graph_version_id", "edge_id", "from_node_id", "to_node_id", "edge_type", "is_anchor", "audit_passed_count_int"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "graph_version_id": {"type": "string"},
+    "edge_id": {"type": "string"},
+    "from_node_id": {"type": "string"},
+    "to_node_id": {"type": "string"},
+    "edge_type": {"type": "string", "enum": ["causal", "constraint", "tradeoff", "dependency"]},
+    "mechanism_json": {
+      "type": "object",
+      "required": ["mediator", "observable", "failure_mode", "intervention"],
+      "additionalProperties": false,
+      "properties": {
+        "mediator": {"type": ["string", "null"]},
+        "observable": {"type": ["string", "null"]},
+        "failure_mode": {"type": ["string", "null"]},
+        "intervention": {"type": ["string", "null"]}
+      }
+    },
+    "is_anchor": {"type": "boolean"},
+    "audit_passed_count_int": {"type": "integer", "minimum": 0}
+  }
+}

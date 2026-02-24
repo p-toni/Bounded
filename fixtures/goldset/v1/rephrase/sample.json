@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0.0",
+  "drill_instance": {"id": "dr_rephrase_1", "diagnostic": "rephrase", "answer_key_json": {"correct_invariant_choice_ids": ["i1"]}},
+  "attempt": {"id": "at_rephrase_1", "diagnostic": "rephrase", "answer_json": {"invariants_selected": ["i1"]}, "source_opened_bool": false},
+  "expected_score": {"result_code": "scored"}
+}

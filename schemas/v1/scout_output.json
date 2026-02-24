@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/scout_output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["counterexamples", "alternate_framing", "failure_mode"],
+  "properties": {
+    "counterexamples": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["edge_id", "text"],
+        "properties": {
+          "edge_id": {"type": "string"},
+          "text": {"type": "string"}
+        }
+      }
+    },
+    "alternate_framing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node_ids", "text"],
+      "properties": {
+        "node_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "text": {"type": "string"}
+      }
+    },
+    "failure_mode": {"type": "string"}
+  }
+}

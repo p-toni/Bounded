@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/edge_evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "schema_version", "created_at", "edge_id", "source_span_id"],
+  "properties": {
+    "id": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "edge_id": {"type": "string"},
+    "source_span_id": {"type": "string"}
+  }
+}

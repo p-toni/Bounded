@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/drill_instance",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "schema_version", "created_at", "topic_id", "graph_version_id", "source_version_id", "rubric_version_id", "diagnostic", "seed", "prompt_payload_json", "answer_key_json"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "topic_id": {"type": "string"},
+    "graph_version_id": {"type": "string"},
+    "source_version_id": {"type": "string"},
+    "rubric_version_id": {"type": "string"},
+    "diagnostic": {"type": "string", "enum": ["rebuild", "rephrase", "predict", "teach", "break", "audit"]},
+    "seed": {"type": "integer", "minimum": 0},
+    "prompt_payload_json": {"type": "object"},
+    "answer_key_json": {"type": "object"}
+  },
+  "$defs": {
+    "rebuild_answer_key": {
+      "type": "object",
+      "required": ["expected_node_ids", "expected_edge_ids", "expected_edge_types_by_edge_id"],
+      "properties": {
+        "expected_node_ids": {"type": "array", "items": {"type": "string"}},
+        "expected_edge_ids": {"type": "array", "items": {"type": "string"}},
+        "expected_edge_types_by_edge_id": {"type": "object"}
+      }
+    },
+    "rephrase_answer_key": {
+      "type": "object",
+      "required": ["correct_invariant_choice_ids"],
+      "properties": {
+        "correct_invariant_choice_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "predict_answer_key": {
+      "type": "object",
+      "required": ["correct_prediction_choice_id"],
+      "properties": {
+        "correct_prediction_choice_id": {"type": "string"}
+      }
+    },
+    "teach_answer_key": {
+      "type": "object",
+      "required": ["valid_paths", "expected_missing_edge_ids"],
+      "properties": {
+        "valid_paths": {"type": "array", "items": {"type": "array", "items": {"type": "string"}}},
+        "expected_missing_edge_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "break_answer_key": {
+      "type": "object",
+      "required": ["broken_edge_id", "downstream_nodes_expected", "correct_repair_choice_id"],
+      "properties": {
+        "broken_edge_id": {"type": "string"},
+        "downstream_nodes_expected": {"type": "array", "items": {"type": "string"}},
+        "correct_repair_choice_id": {"type": "string"}
+      }
+    },
+    "audit_answer_key": {
+      "type": "object",
+      "required": ["correct_span_ids"],
+      "properties": {
+        "correct_span_ids": {"type": "array", "items": {"type": "string"}},
+        "acceptable_sets": {"type": "array", "items": {"type": "array", "items": {"type": "string"}}}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"diagnostic": {"const": "rebuild"}}},
+      "then": {"properties": {"answer_key_json": {"$ref": "#/$defs/rebuild_answer_key"}}}
+    },
+    {
+      "if": {"properties": {"diagnostic": {"const": "rephrase"}}},
+      "then": {"properties": {"answer_key_json": {"$ref": "#/$defs/rephrase_answer_key"}}}
+    },
+    {
+      "if": {"properties": {"diagnostic": {"const": "predict"}}},
+      "then": {"properties": {"answer_key_json": {"$ref": "#/$defs/predict_answer_key"}}}
+    },
+    {
+      "if": {"properties": {"diagnostic": {"const": "teach"}}},
+      "then": {"properties": {"answer_key_json": {"$ref": "#/$defs/teach_answer_key"}}}
+    },
+    {
+      "if": {"properties": {"diagnostic": {"const": "break"}}},
+      "then": {"properties": {"answer_key_json": {"$ref": "#/$defs/break_answer_key"}}}
+    },
+    {
+      "if": {"properties": {"diagnostic": {"const": "audit"}}},
+      "then": {"properties": {"answer_key_json": {"$ref": "#/$defs/audit_answer_key"}}}
+    }
+  ]
+}

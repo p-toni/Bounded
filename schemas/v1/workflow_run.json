@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/workflow_run",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "schema_version", "created_at", "user_id", "workflow_type", "status", "idempotency_key", "input_json", "bound_versions_json"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "user_id": {"type": "string"},
+    "workflow_type": {"type": "string", "enum": ["prepare_rep", "run_reality_audit", "post_session_debrief", "evidence_assist", "render_share_pack"]},
+    "status": {"type": "string", "enum": ["queued", "running", "waiting_for_input", "succeeded", "failed", "canceled"]},
+    "idempotency_key": {"type": "string"},
+    "input_json": {"type": "object"},
+    "bound_versions_json": {"type": "object"},
+    "agent_run_state_json": {"type": "object"},
+    "error_json": {"type": ["object", "null"]},
+    "cancel_requested_at": {"type": ["string", "null"], "format": "date-time"}
+  }
+}

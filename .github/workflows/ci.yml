@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  contracts-and-engine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - name: Install engine deps
+        run: |
+          cd engine-ruby
+          bundle install
+      - name: Validate schemas
+        run: make test-schemas
+      - name: Run engine tests
+        run: make test-engine
+      - name: Replay fixture checks
+        run: make test-replay
+
+  rails-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - name: Install rails deps
+        run: |
+          cd rails-app
+          bundle install
+      - name: Run rails tests
+        run: make test-rails

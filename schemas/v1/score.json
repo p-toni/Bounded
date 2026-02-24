@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/score",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "schema_version", "created_at", "attempt_id", "points_total", "points_by_dimension_json", "evidence_refs_json", "result_code"],
+  "properties": {
+    "id": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "attempt_id": {"type": "string"},
+    "points_total": {"type": "integer", "minimum": 0},
+    "points_by_dimension_json": {"type": "object"},
+    "evidence_refs_json": {"type": "array", "items": {"type": "string"}},
+    "result_code": {"type": "string", "enum": ["scored", "no_score_source_opened"]},
+    "critique_text": {"type": ["string", "null"]}
+  }
+}

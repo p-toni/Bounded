@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "cases": [
+    {
+      "name": "cadence_due_priority",
+      "now": "2026-02-23T12:00:00Z",
+      "audit_interval_days": 3,
+      "curvature_window_days": 7,
+      "topics": [
+        {"topic_id": "topic_alpha", "has_graph_version": true, "has_source_version": true},
+        {"topic_id": "topic_beta", "has_graph_version": true, "has_source_version": true},
+        {"topic_id": "topic_gamma", "has_graph_version": true, "has_source_version": true}
+      ],
+      "schedule_state": {
+        "topics": {
+          "topic_alpha": {"last_prepare_at": "2026-02-22T09:00:00Z", "last_audit_at": "2026-02-22T09:00:00Z"},
+          "topic_beta": {"last_prepare_at": "2026-02-20T09:00:00Z", "last_audit_at": "2026-02-19T09:00:00Z"},
+          "topic_gamma": {"last_prepare_at": "2026-02-18T09:00:00Z", "last_audit_at": "2026-02-21T09:00:00Z"}
+        }
+      },
+      "expected_selected_topic_id": "topic_beta",
+      "expected_queue_order": ["topic_beta", "topic_gamma", "topic_alpha"],
+      "expected_audit_reason_by_topic": {
+        "topic_beta": "cadence_due",
+        "topic_gamma": null,
+        "topic_alpha": null
+      }
+    },
+    {
+      "name": "curvature_trigger_priority",
+      "now": "2026-02-23T12:00:00Z",
+      "audit_interval_days": 3,
+      "curvature_window_days": 7,
+      "topics": [
+        {"topic_id": "topic_alpha", "has_graph_version": true, "has_source_version": true, "curvature_signal_at": "2026-02-23T08:00:00Z"},
+        {"topic_id": "topic_beta", "has_graph_version": true, "has_source_version": true},
+        {"topic_id": "topic_delta", "has_graph_version": false, "has_source_version": true}
+      ],
+      "schedule_state": {
+        "topics": {
+          "topic_alpha": {"last_prepare_at": "2026-02-22T09:00:00Z", "last_audit_at": "2026-02-22T09:00:00Z"},
+          "topic_beta": {"last_prepare_at": "2026-02-20T09:00:00Z", "last_audit_at": "2026-02-20T09:00:00Z"},
+          "topic_delta": {"last_prepare_at": "2026-02-17T09:00:00Z", "last_audit_at": "2026-02-17T09:00:00Z"}
+        }
+      },
+      "expected_selected_topic_id": "topic_alpha",
+      "expected_queue_order": ["topic_alpha", "topic_beta", "topic_delta"],
+      "expected_audit_reason_by_topic": {
+        "topic_alpha": "curvature_trigger",
+        "topic_beta": "cadence_due",
+        "topic_delta": "cadence_due"
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/topic_score",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "schema_version",
+    "created_at",
+    "topic_id",
+    "ous_raw_float",
+    "ous_display_float",
+    "spaced_count_int"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "topic_id": {"type": "string"},
+    "ous_raw_float": {"type": "number", "minimum": 0, "maximum": 100},
+    "ous_display_float": {"type": "number", "minimum": 0, "maximum": 100},
+    "spaced_count_int": {"type": "integer", "minimum": 0}
+  }
+}

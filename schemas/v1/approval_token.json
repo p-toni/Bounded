@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geometry-gym/v1/approval_token",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "schema_version", "created_at", "user_id", "action", "scope", "token_hash", "expires_at"],
+  "properties": {
+    "id": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "user_id": {"type": "string"},
+    "action": {"type": "string", "enum": ["export", "delete", "external_send"]},
+    "scope": {"type": "string"},
+    "resource_id": {"type": ["string", "null"]},
+    "token_hash": {"type": "string"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "consumed_at": {"type": ["string", "null"], "format": "date-time"}
+  }
+}
